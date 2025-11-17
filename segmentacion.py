@@ -28,8 +28,6 @@ def segmentacion_watershed(imagen, iteraciones):
     plt.subplot(3, 7, 8)
     plt.title('Imagen Original')
     plt.imshow(imagen, cmap='gray')
-    plt.show()
-
     
     # Primero, necesitamos encontrar los marcadores para las regiones
     _, thresh = cv.threshold(imagen, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
@@ -37,7 +35,6 @@ def segmentacion_watershed(imagen, iteraciones):
     plt.title('Imagen Umbralizada')
     plt.imshow(thresh, cmap='gray')
     plt.axis('off')
-    plt.show()
 
     # Definir kernel para operaciones morfológicas
     kernel = np.ones((3, 3), dtype=np.uint8)
@@ -46,28 +43,24 @@ def segmentacion_watershed(imagen, iteraciones):
     plt.title('Apertura Morfológica')
     plt.imshow(opening, cmap='gray')
     plt.axis('off')
-    plt.show()
    
     sure_bg = cv.erode(opening, kernel, iterations=iteraciones)
     plt.subplot(3, 7, 3)
     plt.title('Fondo Seguro')
     plt.imshow(sure_bg, cmap='gray')
     plt.axis('off')
-    plt.show()
 
     dist_transform = cv.distanceTransform(thresh, cv.DIST_L2, 5)
     plt.subplot(3, 7, 4)
     plt.title('Transformada de Distancia')
     plt.imshow(dist_transform, cmap='gray')
     plt.axis('off')
-    plt.show()
 
     _, sure_fg = cv.threshold(dist_transform, 0.7 * dist_transform.max(), 255, 0)
     plt.subplot(3, 7, 5)
     plt.title('Primer Plano')
     plt.imshow(sure_fg, cmap='gray')
     plt.axis('off')
-    plt.show()
 
     sure_fg = np.uint8(sure_fg)
     unknown = cv.subtract(sure_bg, sure_fg)
@@ -80,7 +73,6 @@ def segmentacion_watershed(imagen, iteraciones):
     plt.title('Marcadores de esctructuras conectadas')
     plt.imshow(markers, cmap='gray')
     plt.axis('off')
-    plt.show()
 
     # Aplicar el algoritmo de watershed
     markers = cv.watershed(cv.cvtColor(sure_bg, cv.COLOR_GRAY2BGR), markers)
@@ -88,6 +80,7 @@ def segmentacion_watershed(imagen, iteraciones):
     plt.title('Marcadores después de watershed')
     plt.imshow(markers, cmap='gray')
     plt.axis('off')
+    plt.tight_layout()
     plt.show()
     
     imagen[markers == -1] = 255  # Marcar los bordes con blanco
@@ -118,6 +111,8 @@ def segmentacion_semilla(seeds, threshold, imagen, conectividad):
     visited = np.zeros_like(imagen, dtype=bool) #arreglo de booleanos para marcar los pixeles visitados
     height, width = imagen.shape # dimensiones de la imagen
 
+    plt.figure()
+    
     # Vecinos según conectividad
     if conectividad == 4:
         vecinos = [(-1,0), (1,0), (0,-1), (0,1)]
@@ -154,12 +149,13 @@ def segmentacion_semilla(seeds, threshold, imagen, conectividad):
                         region_sum += int(imagen[nx, ny])
                         region_count += 1
         
-        plt.figure()
         plt.subplot(3, 4, seeds.index(seed) + 1)
         plt.title(f'Segmentación para semilla {seed}')
         plt.imshow(segmented, cmap='gray')
         plt.axis('off')
-        plt.show()
+    
+    plt.tight_layout()
+    plt.show()
     return segmented
 
 "imagen de 194 x 259 pixeles)"
