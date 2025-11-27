@@ -162,7 +162,7 @@ def segmentacion_semilla(seeds, threshold, imagen, conectividad):
 def segmentar_imagen_monterrey():
     # Cargar la imagen
     raiz = os.getcwd()
-    imgPath = os.path.join(raiz, 'imagenes/monterrey.jpg')
+    imgPath = os.path.join(raiz, 'percepcion\\imagenes\\monterrey.jpg')
     img = cv.imread(imgPath)
     if img is None:
         print('Error al cargar la imagen')
@@ -184,7 +184,7 @@ def segmentar_imagen_monterrey():
 def segmentar_imagen_sujeto():
     # Cargar la imagen
     raiz = os.getcwd()
-    imgPath = os.path.join(raiz, 'imagenes/sujeto.jpg')
+    imgPath = os.path.join(raiz, 'percepcion\\imagenes\\sujeto.jpg')
     img = cv.imread(imgPath)
     if img is None:
         print('Error al cargar la imagen')
@@ -205,7 +205,7 @@ def segmentar_imagen_sujeto():
 def segmentar_imagen_lena():
     # Cargar la imagen
     raiz = os.getcwd()
-    imgPath = os.path.join(raiz, 'imagenes/lena.jpg')
+    imgPath = os.path.join(raiz, 'percepcion\\imagenes\\lena.jpg')
     img = cv.imread(imgPath)
     if img is None:
         print('Error al cargar la imagen')
